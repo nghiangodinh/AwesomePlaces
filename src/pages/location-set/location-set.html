@@ -11,9 +11,27 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <agm-map [latitude]="lat" [longitude]="lng">
-          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="16"
+                (mapClick)="onSetMarker($event)">
+          <agm-marker [latitude]="marker?.lat" [longitude]="marker?.lng"></agm-marker>
         </agm-map>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6>
+        <button
+          ion-button
+          block
+          color="secondary"
+          (click)="onConfirm()"
+          [disabled]="!marker">Confirm</button>
+      </ion-col>
+      <ion-col col-6>
+        <button
+          ion-button
+          block
+          color="danger"
+          (click)="onAbort()">Abort</button>
       </ion-col>
     </ion-row>
   </ion-grid>
