@@ -1,8 +1,13 @@
+import { PlaceService } from './../../services/place';
 import { Component } from "@angular/core";
 import { Geolocation } from "@ionic-native/geolocation";
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Camera, CameraOptions } from "@ionic-native/camera";
 
-import { ModalController, LoadingController, ToastController } from "ionic-angular";
+import {
+  ModalController,
+  LoadingController,
+  ToastController
+} from "ionic-angular";
 import { NgForm } from "@angular/forms";
 import { LocationSetPage } from "../pages";
 import { Location } from "../../models/location";
@@ -24,7 +29,8 @@ export class PlaceAddPage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private geolocation: Geolocation,
-    private camera: Camera
+    private camera: Camera,
+    private placeService: PlaceService
   ) {}
 
   onLocate() {
@@ -70,16 +76,28 @@ export class PlaceAddPage {
       quality: 100,
       correctOrientation: true,
       encodingType: this.camera.EncodingType.JPEG
-    }
+    };
 
-    this.camera.getPicture(options).then((imageData) => {
-     this.imageUrl = imageData;
-    }, (err) => {
-     console.log(err);
-    });
+    this.camera.getPicture(options).then(
+      imageData => {
+        this.imageUrl = imageData;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
+    this.placeService.addPlace(form.value.title, form.value.description, this.location, this.imageUrl);
+
+    // reset form & model
+    form.reset();
+    this.location = {
+      lat: 40.7624324,
+      lng: -73.9759827
+    };
+    this.locationIsSet = false;
+    this.imageUrl = "";
   }
 }

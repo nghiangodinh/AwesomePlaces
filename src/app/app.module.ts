@@ -1,3 +1,4 @@
+import { PlaceService } from './../services/place';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from "@angular/platform-browser";
 import { ErrorHandler, NgModule } from "@angular/core";
@@ -33,7 +34,8 @@ import {
     Camera,
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    PlaceService
   ]
 })
 export class AppModule {}
