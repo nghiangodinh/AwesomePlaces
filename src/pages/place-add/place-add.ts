@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { Geolocation } from "@ionic-native/geolocation";
-import { ModalController } from "ionic-angular";
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
+import { ModalController, LoadingController, ToastController } from "ionic-angular";
 import { NgForm } from "@angular/forms";
 import { LocationSetPage } from "../pages";
 import { Location } from "../../models/location";
@@ -15,19 +17,38 @@ export class PlaceAddPage {
     lng: -73.9759827
   };
   locationIsSet = false;
+  imageUrl = "";
 
   constructor(
     private modalCtrl: ModalController,
-    private geolocation: Geolocation) {}
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private geolocation: Geolocation,
+    private camera: Camera
+  ) {}
 
   onLocate() {
-    this.geolocation.getCurrentPosition().then((location) => {
-      this.location.lat = location.coords.latitude;
-      this.location.lng = location.coords.longitude;
-      this.locationIsSet = true;
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+    const loader = this.loadingCtrl.create({
+      content: "Getting your location..."
+    });
+    loader.present();
+
+    this.geolocation
+      .getCurrentPosition()
+      .then(location => {
+        loader.dismiss();
+        this.location.lat = location.coords.latitude;
+        this.location.lng = location.coords.longitude;
+        this.locationIsSet = true;
+      })
+      .catch(error => {
+        loader.dismiss();
+        const toast = this.toastCtrl.create({
+          message: "Could not get your location, please pick it manually!",
+          duration: 2500
+        });
+        toast.present();
+      });
   }
 
   onOpenMap() {
@@ -44,7 +65,19 @@ export class PlaceAddPage {
     });
   }
 
-  onTakePhoto() {}
+  onTakePhoto() {
+    const options: CameraOptions = {
+      quality: 100,
+      correctOrientation: true,
+      encodingType: this.camera.EncodingType.JPEG
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+     this.imageUrl = imageData;
+    }, (err) => {
+     console.log(err);
+    });
+  }
 
   onSubmit(form: NgForm) {
     console.log(form.value);
