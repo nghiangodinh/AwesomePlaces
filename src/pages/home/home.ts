@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ModalController, NavController } from "ionic-angular";
+import { ModalController } from "ionic-angular";
 import { PlaceAddPage, PlacePage } from "../pages";
 import { Place } from "../../models/place";
 import { PlaceService } from "../../services/place";
@@ -28,7 +28,7 @@ export class HomePage implements OnInit {
   }
 
   onOpenPlace(place: Place, index: number) {
-    this.modalCtrl.create(PlacePage, { place: place, index: index });
-    this.modalCtrl.present();
+    const placeModal = this.modalCtrl.create(PlacePage, { place: place, index: index });
+    placeModal.present();
   }
 }
