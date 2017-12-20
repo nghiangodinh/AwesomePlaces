@@ -4,7 +4,7 @@ export class Place {
   constructor(
     public title: string,
     public description: string,
-    location: Location,
+    public location: Location,
     public imageUrl: string
   ) {}
 }

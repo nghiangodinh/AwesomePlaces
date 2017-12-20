@@ -1,6 +1,7 @@
 import { PlaceService } from './../services/place';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from "@angular/platform-browser";
+import { IonicStorageModule } from '@ionic/storage';
 import { ErrorHandler, NgModule } from "@angular/core";
 import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 import { SplashScreen } from "@ionic-native/splash-screen";
@@ -22,6 +23,7 @@ import {
   imports: [
     BrowserModule,
     HttpModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp),
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyBln9gB9i-_IfBTXuka0Lb6Vh7l7ZhKihU"
