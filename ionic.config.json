@@ -1,6 +1,6 @@
 {
   "name": "AwesomePlaces",
-  "app_id": "",
+  "app_id": "fdf8b596",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
